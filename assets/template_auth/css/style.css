@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
+body {
+	font-family: 'Lato', sans-serif;
+	/* background: #ececec; */
+}
+
+input[type="file"] {
+    color: transparent;
+    cursor: pointer;
+}
+
+input[type="file"]::-webkit-file-upload-button {
+    visibility: hidden;
+    overflow: hidden;
+    display: none;
+}
+
+input[type="file"]::before {
+    content: 'UPLOAD FOTO';
+    padding: 0.2rem 1rem;
+    background-color: #1269db;
+    border: 2px solid #1269db;
+    font-size: 0.80rem;
+    color: #fff;
+    line-height: 1;
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+    transition: 0.3s;
+    margin: 0;
+    margin-right: 6px;
+}
+
+input[type="file"]:hover::before {
+    background-color: #f12525;
+    border: 2px solid #f12525;
+    color: #fff;
+}
+
+/*------------ Login container ------------*/
+
+.box-area {
+	width: 930px;
+}
+
+/*------------ Right box ------------*/
+
+.right-box {
+	padding: 40px 30px 40px 40px;
+}
+
+/*------------ Custom Placeholder ------------*/
+
+::placeholder {
+	font-size: 16px;
+}
+
+.rounded-4 {
+	border-radius: 20px;
+}
+
+.rounded-5 {
+	border-radius: 30px;
+}
+
+
+/*------------ For small screens------------*/
+
+@media only screen and (max-width: 768px) {
+
+	.box-area {
+		margin: 0 10px;
+
+	}
+
+	.left-box {
+		height: 100px;
+		overflow: hidden;
+	}
+
+	.right-box {
+		padding: 20px;
+	}
+
+}
