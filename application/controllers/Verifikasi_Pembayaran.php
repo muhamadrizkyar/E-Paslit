@@ -83,11 +83,10 @@ public function terimapembayaran($id_pembayaran)
 }
 
 
-    public function tolakpembayaran($id_pembayaran)
+   public function tolakpembayaran($id_pembayaran)
 {
     $data['user'] = $this->UserModel->cekData(['username' => $this->session->userdata('username')])->row_array();
 
-    // Validasi user
     if (!$data['user'] || !isset($data['user']['id_level'])) {
         show_404();
     }
@@ -96,28 +95,31 @@ public function terimapembayaran($id_pembayaran)
         show_404();
     }
 
-    // 1. Ambil data pembayaran
     $pembayaran = $this->db->get_where('pembayaran', ['id_pembayaran' => $id_pembayaran])->row_array();
 
     if ($pembayaran) {
         $id_tagihan = $pembayaran['id_tagihan'];
 
-        // 2. Update status tagihan
+        // Hapus file bukti pembayaran jika ada
+        if (!empty($pembayaran['image'])) {
+            $path = FCPATH . 'assets/bukti-pembayaran/' . $pembayaran['image'];
+            if (file_exists($path)) {
+                unlink($path); // Hapus file
+            }
+        }
+
+        // Update status tagihan jadi 3 (ditolak)
         $this->db->where('id_tagihan', $id_tagihan);
         $this->db->update('tagihan', ['status' => 3]);
 
-        // 3. Update pembayaran → simpan id_user yang menolak
+        // Hapus data pembayaran
         $this->db->where('id_pembayaran', $id_pembayaran);
-        $this->db->update('pembayaran', [
-            'id_user' => $data['user']['id_user'] // Pastikan kolom ada!
-        ]);
+        $this->db->delete('pembayaran');
 
-        // 4. Pesan flash
-        $this->session->set_flashdata('message', 'Pembayaran ditolak!');
+        $this->session->set_flashdata('message', 'Pembayaran ditolak, file bukti dihapus!');
     }
 
     redirect('verifikasi_pembayaran');
 }
-
 
 }
